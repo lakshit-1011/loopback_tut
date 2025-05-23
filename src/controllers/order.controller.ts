@@ -36,13 +36,11 @@ export class OrderController {
       content: {
         'application/json': {
           schema: getModelSchemaRef(Order, {
-            title: 'NewOrder',
-            exclude: ['order_id'],
-          }),
+            title: 'NewOrder',          }),
         },
       },
     })
-    order: Omit<Order, 'order_id'>,
+    order: Order
   ): Promise<Order> {
     return this.orderRepository.create(order);
   }
@@ -73,7 +71,7 @@ export class OrderController {
   async find(
     @param.filter(Order) filter?: Filter<Order>,
   ): Promise<Order[]> {
-    return this.orderRepository.find(filter);
+    return this.orderRepository.find({include:['customers','manufactures']});
   }
 
   @patch('/orders')

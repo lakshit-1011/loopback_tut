@@ -5,7 +5,7 @@ export class Manufature extends Entity {
   @property({
     type: 'number',
     id: true,
-    generated: true,
+    generated: false,
   })
   manufacture_id?: number;
 

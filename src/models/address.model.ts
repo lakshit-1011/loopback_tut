@@ -6,7 +6,7 @@ export class Address extends Entity {
   @property({
     type: 'number',
     id: true,
-    generated: true,
+    generated: false,
   })
   address_id?: number;
 

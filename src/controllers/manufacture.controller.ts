@@ -37,12 +37,11 @@ export class ManufactureController {
         'application/json': {
           schema: getModelSchemaRef(Manufature, {
             title: 'NewManufature',
-            exclude: ['manufacture_id'],
           }),
         },
       },
     })
-    manufature: Omit<Manufature, 'manufacture_id'>,
+    manufature: Manufature
   ): Promise<Manufature> {
     return this.manufatureRepository.create(manufature);
   }

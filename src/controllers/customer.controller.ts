@@ -17,13 +17,13 @@ import {
   requestBody,
   response,
 } from '@loopback/rest';
-import {Customers} from '../models';
+import {Customers, Order} from '../models';
 import {CustomersRepository} from '../repositories';
 
 export class CustomerController {
   constructor(
     @repository(CustomersRepository)
-    public customersRepository : CustomersRepository,
+    public customersRepository: CustomersRepository,
   ) {}
 
   @post('/customers')
@@ -37,12 +37,11 @@ export class CustomerController {
         'application/json': {
           schema: getModelSchemaRef(Customers, {
             title: 'NewCustomers',
-            exclude: ['customer_id'],
           }),
         },
       },
     })
-    customers: Omit<Customers, 'customer_id'>,
+    customers: Customers,
   ): Promise<Customers> {
     return this.customersRepository.create(customers);
   }
@@ -73,7 +72,15 @@ export class CustomerController {
   async find(
     @param.filter(Customers) filter?: Filter<Customers>,
   ): Promise<Customers[]> {
-    return this.customersRepository.find(filter);
+    return this.customersRepository.find({
+      include: [
+        {
+          relation: 'orders',
+          scope: {include: ['manufactures']},
+        },
+        'address'
+      ],
+    });
   }
 
   @patch('/customers')
@@ -106,7 +113,8 @@ export class CustomerController {
   })
   async findById(
     @param.path.number('id') id: number,
-    @param.filter(Customers, {exclude: 'where'}) filter?: FilterExcludingWhere<Customers>
+    @param.filter(Customers, {exclude: 'where'})
+    filter?: FilterExcludingWhere<Customers>,
   ): Promise<Customers> {
     return this.customersRepository.findById(id, filter);
   }

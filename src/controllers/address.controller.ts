@@ -37,12 +37,11 @@ export class AddressController {
         'application/json': {
           schema: getModelSchemaRef(Address, {
             title: 'NewAddress',
-            exclude: ['address_id'],
           }),
         },
       },
     })
-    address: Omit<Address, 'address_id'>,
+    address: Address
   ): Promise<Address> {
     return this.addressRepository.create(address);
   }

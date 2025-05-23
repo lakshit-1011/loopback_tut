@@ -7,7 +7,7 @@ export class Order extends Entity {
   @property({
     type: 'number',
     id: true,
-    generated: true,
+    generated: false,
   })
   order_id?: number;
 

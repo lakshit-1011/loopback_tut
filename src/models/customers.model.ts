@@ -7,9 +7,9 @@ export class Customers extends Entity {
   @property({
     type: 'number',
     id: true,
-    generated: true,
+    generated: false,
   })
-  customer_id?: number;
+  customer_id: number;
 
   @property({
     type: 'string',
