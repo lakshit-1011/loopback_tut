@@ -9,3 +9,4 @@ export * from './customer.controller';
 export * from './order.controller';
 export * from './address.controller';
 export * from './manufacture.controller';
+export * from './my-custom.controller';
